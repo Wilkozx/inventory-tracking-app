@@ -61,6 +61,7 @@ class OrdersAPI(Resource):
             name=orders.payload["name"],
             description=orders.payload["description"],
             purchase_date=date.fromisoformat(orders.payload["purchase_date"]),
+            purchase_price=orders.payload["purchase_price"],
             delivered_date=date.fromisoformat(orders.payload["delivered_date"]),
             source=orders.payload["source"],
             img_path=orders.payload["img_path"],
@@ -83,6 +84,7 @@ class OrderAPI(Resource):
         order.name = orders.payload["name"] 
         order.description = orders.payload["description"] 
         order.purchase_date = date.fromisoformat(orders.payload["purchase_date"])
+        order.purchase_price=orders.payload["purchase_price"],
         order.delivered_date = date.fromisoformat(orders.payload["delivered_date"])
         order.source = orders.payload["source"] 
         order.img_path = orders.payload["img_path"] 
