@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_restx import Resource, Namespace, fields, reqparse
 
-from datetime import date
+from datetime import date, datetime
 
 from sqlalchemy import desc
 
@@ -65,7 +65,9 @@ class OrdersAPI(Resource):
             delivered_date=date.fromisoformat(orders.payload["delivered_date"]),
             source=orders.payload["source"],
             img_path=orders.payload["img_path"],
-            status=orders.payload["status"]
+            status=orders.payload["status"],
+            date_added = datetime.now(),
+            date_updated = datetime.now()
             )
         db.session.add(order)
         db.session.commit()
@@ -81,16 +83,17 @@ class OrderAPI(Resource):
     @orders.marshal_with(order_model, mask=False)
     def put(self, id):
         order = Order.query.get(id)
-        order.name = orders.payload["name"] 
-        order.description = orders.payload["description"] 
+        order.name = orders.payload["name"]
+        order.description = orders.payload["description"]
         order.purchase_date = date.fromisoformat(orders.payload["purchase_date"])
-        order.purchase_price=orders.payload["purchase_price"],
+        order.purchase_price=orders.payload["purchase_price"]
         order.delivered_date = date.fromisoformat(orders.payload["delivered_date"])
-        order.source = orders.payload["source"] 
+        order.source = orders.payload["source"]
         order.img_path = orders.payload["img_path"] 
-        order.status = orders.payload["status"] 
+        order.status = orders.payload["status"]
+        order.date_updated = datetime.now()
         db.session.commit()
-        return order
+        return order, 204
 
     def delete(self, id):
         order = Order.query.get(id)

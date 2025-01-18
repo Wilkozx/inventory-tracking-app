@@ -13,6 +13,9 @@ class Order(db.Model):
     img_path = Column(String(500))
     status = Column(String(50))
     item = db.relationship("Item", back_populates="order")
+    date_added = Column(DateTime)
+    date_updated = Column(DateTime)
+
 
 class Item(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
