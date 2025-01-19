@@ -10,9 +10,14 @@ function Form({ inputs, action, endpoint }) {
     console.log(e.target.value)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    window.location.reload()
+  };
+
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         {inputs.length >= 0 && (
           inputs.map((input, index) => (
             input.type == "text" ? (
