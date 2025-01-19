@@ -40,10 +40,16 @@ class OrdersAPI(Resource):
 
         query = Order.query
         if sort_by:
-            if sort_by == "date_descending":
-                query = query.order_by(Order.purchase_date.desc())
-            else:
-                query = query.order_by(Order.purchase_date)
+            match sort_by:
+                case "newest":
+                    query = query.order_by(Order.date_added.desc())
+                case "oldest":
+                    query = query.order_by(Order.date_added)
+                case "date_descending":
+                    query = query.order_by(Order.purchase_date.desc())
+                case _:
+                    query = query.order_by(Order.purchase_date)
+                
         if filter_by:
             query = query.where(Order.name.contains(f"%{filter_by}%"))
         if page:

@@ -6,7 +6,7 @@ import styles from "./searchInterface.module.css";
 
 function SearchInterface({target}) {
     const[filter, setFilter] = useState("")
-    const[sortBy, setSortBy] = useState("date_descending")
+    const[sortBy, setSortBy] = useState("newest")
     const[page, setPage] = useState(1)
 
     const[data, setData] = useState([])
@@ -68,6 +68,8 @@ function SearchInterface({target}) {
                     </div>
                     <div>
                         <select id="sort_by" className={styles.sort_by} onChange={handleSort}>
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
                             <option value="date_descending">Date Descending</option>
                             <option value="date_ascending">Date Ascending</option>
                         </select>
