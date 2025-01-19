@@ -83,9 +83,9 @@ function SearchInterface({target}) {
                                 <div className={styles.data}>
                                     <img src="/placeholder.png"></img>
                                     <div className={styles.data_details}>
-                                        <p>name: {item.name}</p>
-                                        <p>description: {item.description}</p>
-                                        <p>price:{item.purchase_price}</p>
+                                        <p>{item.name}</p>
+                                        <p>{item.description}</p>
+                                        <p>£{item.purchase_price}</p>
                                         {/* <p>source: {item.source}</p> */}
                                         <p>purchased: {item.purchase_date}</p>
                                         <p>delivered: {item.delivered_date}</p>
