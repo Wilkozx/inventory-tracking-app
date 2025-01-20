@@ -15,16 +15,19 @@
 .form input {
     width: 100%;
     height: 40px;
+    background-color: #1a1a1a;
 }
 
 .form select {
     width: 100%;
     height: 40px;
+    background-color: #1a1a1a;
 }
 
 .form button {
     width: 100%;
     grid-column: 2 / span 2;
+    background-color: #1a1a1a;
 }
 
 @media screen and (max-width: 768px) {
