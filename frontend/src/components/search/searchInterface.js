@@ -81,7 +81,7 @@ function SearchInterface({target}) {
                         data.map((item, index) => (
                             <a href={"/" + target + "/" + item.id} key={item.id}>
                                 <div className={styles.data}>
-                                    <img src="/placeholder.png"></img>
+                                    <img src="/placeholder.png" alt={item.name}></img>
                                     <div className={styles.data_details}>
                                         <p>{item.name}</p>
                                         <p>{item.description}</p>

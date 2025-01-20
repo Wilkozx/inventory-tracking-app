@@ -20,25 +20,25 @@ function Form({ inputs, action, endpoint }) {
       <form className={styles.form} onSubmit={handleSubmit}>
         {inputs.length >= 0 && (
           inputs.map((input, index) => (
-            input.type == "text" ? (
+            input.type === "text" ? (
               <div className={styles.text}>
                 <label for={input.name}>{input.name}</label>
                 <input name={input.name} type={input.type} placeholder={input.name}></input>
               </div>
           ) : 
-            input.type == "date" ? (
+            input.type === "date" ? (
               <div className={styles.date}>
                 <label for={input.name}>{input.name}</label>
                 <input type={input.type} defaultValue={new Date().toISOString().substring(0, 10)}></input>
               </div>
           ) :
-            input.type == "number" ? (
+            input.type === "number" ? (
               <div className={styles.number}>
                 <label for={input.name}>{input.name}</label>
                 <input type={input.type} defaultValue={0}></input>
               </div>
           ) :
-            input.type == "options" ? (
+            input.type === "options" ? (
               <div className={styles.options}>
                 <label for={input.name}>{input.name}</label>
                 <select name={input.name}>
@@ -48,7 +48,7 @@ function Form({ inputs, action, endpoint }) {
                 </select>
               </div>
           ) :
-            input.type == "file" ? (
+            input.type === "file" ? (
               <div>
                 <label for={input.name}>{input.name}</label>
                 <input name={input.name} type="file"></input>

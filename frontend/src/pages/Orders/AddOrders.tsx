@@ -1,6 +1,9 @@
 import React from 'react'
 
 import Form from '../../components/form/form'
+import RecentFeed from '../../components/feed/recentFeed'
+
+
 
 function AddOrders() {
 
@@ -16,6 +19,14 @@ function AddOrders() {
             {name: 'status', type: 'text'},
             {name: 'img', type: 'file'},
         ]} action={"post"} endpoint={"/api/orders/"}></Form>
+        <RecentFeed displayedFields={[
+          "name", 
+          "description", 
+          "purchase_date", 
+          "purchase_price", 
+          "delivered_date", 
+          "source"
+        ]} title="Recently Added" target="orders"></RecentFeed>
     </div>
   )
 }
