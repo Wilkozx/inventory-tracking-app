@@ -35,7 +35,7 @@ function Form({ inputs, action, endpoint }) {
             input.type === "number" ? (
               <div className={styles.number}>
                 <label for={input.name}>{input.name}</label>
-                <input type={input.type} defaultValue={0}></input>
+                <input type={input.type} defaultValue={0} min="0.00" max="1000" step="0.01"></input>
               </div>
           ) :
             input.type === "options" ? (
