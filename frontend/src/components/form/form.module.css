@@ -26,3 +26,12 @@
     width: 100%;
     grid-column: 2 / span 2;
 }
+
+@media screen and (max-width: 768px) {
+    .form {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+    }
+
+}
