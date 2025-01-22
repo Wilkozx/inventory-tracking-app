@@ -14,8 +14,14 @@ function RecentFeed({displayedFields, target, title}) {
       let response = await getSearch(target, "", sortBy, 0, 5)
       setData(response.data)
     }
+
     handleSearch()
-  }, [target])
+
+    window.addEventListener('componentRefresh', handleSearch)
+    return () => {
+      window.removeEventListener('componentRefresh', handleSearch)
+    }
+  }, [])
 
   return (
     <div className={styles.container}>

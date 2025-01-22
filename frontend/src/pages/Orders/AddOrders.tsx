@@ -4,7 +4,6 @@ import Form from '../../components/form/form'
 import RecentFeed from '../../components/feed/recentFeed'
 
 
-
 function AddOrders() {
 
   return (
@@ -17,8 +16,8 @@ function AddOrders() {
             {name: 'delivered_date', type: 'date'},
             {name: 'source', type: 'options', options: ["Ebay", "Other"]},
             {name: 'status', type: 'text'},
-            {name: 'img', type: 'file'},
-        ]} action={"post"} endpoint={"/api/orders/"}></Form>
+            {name: 'img_path', type: 'file'},
+        ]} method={"post"} target={"orders"}></Form>
         <RecentFeed displayedFields={[
           "name", 
           "description", 
