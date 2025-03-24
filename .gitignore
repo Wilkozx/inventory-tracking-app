@@ -164,3 +164,5 @@ custom
 
 # database image directory
 images
+frontend/.env.production
+frontend/.env.development
