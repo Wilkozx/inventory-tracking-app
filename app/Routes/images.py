@@ -1,5 +1,7 @@
 from flask import Blueprint, request, send_from_directory
 
+UPLOAD_FOLDER = 'images'
+
 def setup_image_routes(app):
     images = Blueprint('images', __name__)
 
