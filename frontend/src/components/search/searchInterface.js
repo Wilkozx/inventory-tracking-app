@@ -11,11 +11,15 @@ function SearchInterface({target}) {
 
     const[data, setData] = useState([])
     const[total, setTotal] = useState(0)
-    
+
     const handleSearch = async () => {
-        let response = await getSearch(target, filter, sortBy, (page - 1))
-        setData(response.data)
-        setTotal(response.total)
+        try { 
+            let response = await getSearch(target, filter, sortBy, (page - 1))
+            setData(response.data)
+            setTotal(response.total)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const handleSubmit = (e) => {
@@ -76,30 +80,34 @@ function SearchInterface({target}) {
                         <button className={styles.add_button} onClick={handleAddition}>+</button>
                     </div>
                 </div>
-                <div className={styles.search_data}>
-                    {data.length >= 1 && (
-                        data.map((item, index) => (
-                            <a href={"/" + target + "/" + item.id} key={item.id}>
-                                <div className={styles.data}>
-                                    <img src="/placeholder.png" alt={item.name}></img>
-                                    <div className={styles.data_details}>
-                                        <p>{item.name}</p>
-                                        <p>{item.description}</p>
-                                        <p>£{item.purchase_price}</p>
-                                        {/* <p>source: {item.source}</p> */}
-                                        <p>purchased: {item.purchase_date}</p>
-                                        <p>delivered: {item.delivered_date}</p>
+                {data.length > 0 &&
+                <>
+                    <div className={styles.search_data}>
+                        {data.length >= 1 && (
+                            data.map((item, index) => (
+                                <a href={"/" + target + "/" + item.id} key={item.id}>
+                                    <div className={styles.data}>
+                                        <img src={'images/' + item.img_path} alt={item.name}></img>
+                                        <div className={styles.data_details}>
+                                            <p>{item.name}</p>
+                                            <p>{item.description}</p>
+                                            <p>£{item.purchase_price}</p>
+                                            {/* <p>source: {item.source}</p> */}
+                                            <p>purchased: {item.purchase_date}</p>
+                                            <p>delivered: {item.delivered_date}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        ))   
-                    )}
-                </div>
+                                </a>
+                            ))   
+                        )}
+                    </div>
                 <div className={styles.search_bottom}>
                     {
                         [...Array(Math.ceil(total/20))].map((e, x) => <button value={x + 1} onClick={handlePageChange}>{x + 1}</button>)
                     }
                 </div>
+                </>
+                }
             </div>
         </div>
     )

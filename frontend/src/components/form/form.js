@@ -7,32 +7,38 @@ import { postRequest } from '../../services/utils.tsx'
 const sendRefresh = new Event('componentRefresh');
 
 function Form({ inputs, method, target }) {
-
   const[formData, setFormData] = useState(() => {
-    let initialData = {};
+    let initialData = new FormData();
     inputs.map((value, index) => {
       if (value.type === "text") {
-        initialData[value.name] = "";
+        initialData.append(value.name, "")
       }
       if (value.type === "date") {
-        initialData[value.name] = new Date().toISOString().substring(0, 10);
+        initialData.append(value.name, new Date().toISOString().substring(0, 10))
       }
       if (value.type === "number") {
-        initialData[value.name] = 0;
+        initialData.append(value.name, 0)
       }
       if (value.type === "options") {
-        initialData[value.name] = "";
+        initialData.append(value.name, "")
       }
       if (value.type === "file") {
-        initialData[value.name] = "";
+        initialData.append(value.name, "")
       }
     });
     return initialData;
   })
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
+    setFormData((prevFormData) => {
+      const newFormData = new FormData(); 
+      for (let [key, value] of prevFormData.entries()) {
+        newFormData.append(key, value); 
+      }
+      newFormData.set(e.target.name, e.target.value);
+      return newFormData;
+    });
+  };
 
   const submitRequest = async (payload) => {
     if (method === "post") {
@@ -44,6 +50,16 @@ function Form({ inputs, method, target }) {
     window.dispatchEvent(sendRefresh);
   }
 
+  const handleFileChange = async (e) => {
+    setFormData((prevFormData) => {
+      const newFormData = new FormData(); 
+      for (let [key, value] of prevFormData.entries()) {
+        newFormData.append(key, value); 
+      }
+      newFormData.set(e.target.name, e.target.files[0]);
+      return newFormData;
+    });
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -86,7 +102,7 @@ function Form({ inputs, method, target }) {
             input.type === "file" ? (
               <div>
                 <label for={input.name}>{input.name}</label>
-                <input name={input.name} type="file" onChange={handleChange}></input>
+                <input name={input.name} type="file" onChange={handleFileChange} accept="image/png, image/jpeg, image/jpg"></input>
               </div>
           ) : null
           ))

@@ -1,3 +1,5 @@
+const baseUrl = process.env.REACT_APP_API_URL
+
 export async function getSearch(
     target: string = "",
     query: string = "",
@@ -7,25 +9,32 @@ export async function getSearch(
 ) {
     let response;
     if (query) {
-        response = await fetch("/api/" + target + "/?filter_by=" + query + "&sort_by=" + sort_by + "&limit=" + limit + "&page=" + page)
+        response = await fetch(baseUrl + target + "/?filter_by=" + query + "&sort_by=" + sort_by + "&limit=" + limit + "&page=" + page)
     } else {
-        response = await fetch("/api/" + target + "/?sort_by=" + sort_by + "&limit=" + limit + "&page=" + page)
+        response = await fetch(baseUrl + target + "/?sort_by=" + sort_by + "&limit=" + limit + "&page=" + page)
     }
 
     let data = await response.json()
     return data
 }
 
-export async function postRequest(
+export async function getFromID(
     target: string = "",
-    payload: {} = {}
+    id: number,
 ) {
     let response;
-    response = await fetch("/api/" + target + "", {
+    response = await fetch(baseUrl + target + "/" + id)
+    let data = await response.json()
+    return data
+}
+
+export async function postRequest(
+    target: string = "",
+    payload: FormData
+) {
+    let response;
+    response = await fetch(baseUrl + target + "", {
         method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        body: payload
     });
 }
