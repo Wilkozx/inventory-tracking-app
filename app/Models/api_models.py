@@ -46,6 +46,6 @@ order_input_model = api.model("OrderInput", {
     "purchase_price": fields.Integer,
     "delivered_date": fields.Date,
     "source": fields.String,
-    "img_path": fields.String,
+    "img_path": fields.Raw,
     "status": fields.String
 })

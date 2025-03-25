@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_file
 from flask_restx import Resource, Namespace, fields, reqparse
 
 from datetime import date, datetime
@@ -11,6 +11,11 @@ from ..Models.models import Order
 from ..Models.api_models import orders_model, order_model, order_input_model, order_response_model
 
 from ..extensions import db
+
+import os 
+from werkzeug.utils import secure_filename
+
+from ..Utils.upload import upload_image
 
 query_params = reqparse.RequestParser()
 query_params.add_argument("filter_by", help="Filter orders based on input")
@@ -63,21 +68,38 @@ class OrdersAPI(Resource):
     @orders.expect(order_input_model)
     @orders.marshal_with(orders_model, mask=False)
     def post(self):
-        order = Order(
-            name=orders.payload["name"],
-            description=orders.payload["description"],
-            purchase_date=date.fromisoformat(orders.payload["purchase_date"]),
-            purchase_price=orders.payload["purchase_price"],
-            delivered_date=date.fromisoformat(orders.payload["delivered_date"]),
-            source=orders.payload["source"],
-            img_path=orders.payload["img_path"],
-            status=orders.payload["status"],
-            date_added = datetime.now(),
-            date_updated = datetime.now()
+        data = request.form.to_dict(flat=True)
+        files = request.files.to_dict(flat=True)
+
+        try: 
+            orders.schema_model('OrderInput').validate(data)
+
+            img_path = None
+            if 'img_path' in files:
+                img_file = files['img_path']
+                pathname = upload_image(img_file)
+                if pathname:
+                    img_path = pathname
+
+            order = Order(
+                name=data.get('name'),
+                description=data.get("description"),
+                purchase_date=date.fromisoformat(data.get("purchase_date")),
+                purchase_price=data.get("purchase_price"),
+                delivered_date=date.fromisoformat(data.get("delivered_date")),
+                source=data.get("source"),
+                img_path=img_path,
+                status=data.get("status"),
+                date_added = datetime.now(),
+                date_updated = datetime.now()
             )
-        db.session.add(order)
-        db.session.commit()
-        return order, 201
+
+            db.session.add(order)
+            db.session.commit()
+            return order, 201
+    
+        except Exception as e:
+                return {'message': str(e)}, 400
     
 @orders.route("/<int:id>")
 class OrderAPI(Resource):
